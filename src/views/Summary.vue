@@ -4,6 +4,7 @@
       <sync-state-display></sync-state-display>
       <list-unregistered-objects></list-unregistered-objects>
       <farm-objects-management-component></farm-objects-management-component>
+      <dashboard-objects-management></dashboard-objects-management>
     </div>
   </div>
 </template>
@@ -12,6 +13,7 @@
   import ListUnregisteredObjects from './summary/ListUnregisteredObjects.vue'
   import SyncStateDisplay from './summary/SyncStateDisplay.vue'
   import FarmObjectsManagementComponent from './summary/FarmObjectsManagement.vue'
+  import DashboardObjectsManagement from './summary/DashboardObjectManagement.vue'
   //  import CardLine2ChartExample from './dashboard/CardLine2ChartExample'
   //  import CardLine3ChartExample from './dashboard/CardLine3ChartExample'
   //  import CardBarChartExample from './dashboard/CardBarChartExample'
@@ -25,7 +27,8 @@
     components: {
       ListUnregisteredObjects,
       SyncStateDisplay,
-      FarmObjectsManagementComponent
+      FarmObjectsManagementComponent,
+      DashboardObjectsManagement
     },
     data: function () {
       return {

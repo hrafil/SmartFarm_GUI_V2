@@ -1,10 +1,10 @@
 <template>
   <b-card>
     <b-row>
-      <b-col sm="5">
+      <b-col sm="9">
         <h4 class="card-title mb-0">Periodická synchronizace objektů SmartFarm</h4>
       </b-col>
-      <b-col sm="7" class="d-none d-md-block">
+      <b-col sm="3" class="d-md-inline-block">
         <b-button-toolbar class="float-right" aria-label="Možnosti synchronizace">
           <b-button type="button" variant="success" class="float-right"><i class="icon-check"></i></b-button>
           <b-button type="button" variant="danger" class="float-right"><i class="icon-ban"></i></b-button>

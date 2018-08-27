@@ -14,6 +14,7 @@
         <br>
         <b-row>
           <b-col sm="12">
+            <div class="table-responsive">
             <table class="table">
               <thead>
               <tr>
@@ -40,6 +41,7 @@
               </tr>
               </tbody>
             </table>
+            </div>
           </b-col>
         </b-row>
       </b-card>

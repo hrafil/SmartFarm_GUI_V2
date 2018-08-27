@@ -4,7 +4,7 @@
       <b-col sm="5">
         <h4 class="card-title mb-0">Registrace objektů SmartFarm</h4>
       </b-col>
-      <b-col sm="7" class="d-none d-md-block">
+      <b-col sm="7" class="d-md-block">
         <b-button v-b-toggle.collapseUnregisteredObjectsComponent type="button" variant="secondary" class="float-right"><i class="cui-chevron-bottom"></i></b-button>
       </b-col>
     </b-row>
@@ -40,7 +40,6 @@
 <script>
   import UnregisteredObjectsService from '../../services/UnregisteredObjectsService'
   import CreateUnregisteredObjectFormComponent from './CreateUnregisteredObjectForm.vue'
-
 
   export default {
     name: 'list-unregistered-objects',
