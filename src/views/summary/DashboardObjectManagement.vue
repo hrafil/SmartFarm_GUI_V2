@@ -17,7 +17,7 @@
               <b-list-group-item href="#" class="flex-column align-items-start">
                 <div class="d-flex flex-row">
                 <!-- <div class="align-self-start"> -->
-                    <div style="margin-right: 1em;" class="d-flex flex-column align-items-center justify-content-center">
+                    <div class="d-flex flex-column align-items-center justify-content-center mr-3">
                       <!-- <div class="d-flex align-items-center"> -->
                         <div>0</div>
                         <div><small class="text-muted">BOOL</small></div>
@@ -30,6 +30,14 @@
                   Donec id elit non mi porta gravida at eget metus. Maecenas
                   sed diam eget risus varius blandit.
                 </span>
+                </div>
+                <div class="d-flex flex-column justify-content-center ml-auto">
+                <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-primary" type="button">Button</button>
+                  </div>
+                </div>
                 </div>
                 </div>
               </b-list-group-item>

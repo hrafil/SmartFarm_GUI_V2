@@ -1,4 +1,5 @@
 <template>
+<transition name="fade">
   <b-col v-if="showForm" sm="6">
     <b-card>
       <div slot="header">
@@ -69,6 +70,7 @@
       </div>
     </b-card>
   </b-col>
+</transition>
 </template>
 
 <script>
