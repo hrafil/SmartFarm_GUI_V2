@@ -10,6 +10,9 @@ export default {
       return axios.get('https://jsonplaceholder.typicode.com/todos/1')
     }
   },
+  getPreparedValues(){
+    return prepareData();
+  }
 }
 
 
@@ -24,7 +27,7 @@ function getListFarmObject(){
           "data_type": "REAL",
           "measurement": "",
           "measurement_units": "",
-          "is_settable": true,
+          "is_settable": false,
           "awid": "1",
           "object_value_id": "5b4fa841c9b40b395cf6b36d",
           "sys": {
@@ -98,4 +101,114 @@ function getListFarmObject(){
   else{
     console.log("Not implemented;")
   }
+}
+
+
+function getListValueFarmObject(){
+  if(DEBUG){
+  const inputDataList = {
+    "itemList": [
+      {
+        "name": "AF1_AC",
+        "value": 1,
+        "awid": "1",
+        "sys": {
+          "cts": "2018-07-19T07:17:53.389Z",
+          "mts": "2018-07-23T07:21:26.214Z",
+          "rev": 438
+        },
+        "id": "5b503b21fe230e15208b8009"
+      },
+      {
+        "name": "AF1_AR",
+        "value": 1,
+        "awid": "1",
+        "sys": {
+          "cts": "2018-07-23T07:20:41.070Z",
+          "mts": "2018-07-23T07:21:26.331Z",
+          "rev": 9
+        },
+        "id": "5b5581c92da3df104421d0b3"
+      },
+      {
+        "name": "ST1_AI",
+        "value": 27,
+        "awid": "1",
+        "sys": {
+          "cts": "2018-07-04T07:19:05.433Z",
+          "mts": "2018-07-12T08:04:41.558Z",
+          "rev": 1218
+        },
+        "id": "5b3c74e9e6d6940d9c9caa43"
+      },
+      {
+        "name": "ST1_RE",
+        "value": 28.860001,
+        "awid": "1",
+        "sys": {
+          "cts": "2018-07-04T07:32:24.170Z",
+          "mts": "2018-07-23T07:21:23.040Z",
+          "rev": 2656
+        },
+        "id": "5b3c7808ff9d3e16641da597"
+      },
+      {
+        "name": "ST1_SIM",
+        "value": 1,
+        "awid": "1",
+        "sys": {
+          "cts": "2018-07-16T20:54:09.218Z",
+          "mts": "2018-07-23T07:21:26.119Z",
+          "rev": 479
+        },
+        "id": "5b4d05f15cc1d72578d87db8"
+      },
+      {
+        "name": "ST2_AI",
+        "value": 27,
+        "awid": "1",
+        "sys": {
+          "cts": "2018-07-04T07:41:00.684Z",
+          "mts": "2018-07-12T08:04:41.626Z",
+          "rev": 1137
+        },
+        "id": "5b3c7a0cef3161197828a5b9"
+      }
+    ],
+    "pageInfo": {
+      "pageIndex": 0,
+      "pageSize": 100,
+      "total": 6
+    },
+    "uuAppErrorMap": {}
+  };
+  return inputDataList;
+  }
+  else{
+    console.log("Not Implemented")
+  }
+}
+
+function prepareData(){
+  var farmObjectList = getListFarmObject();
+  for (var j = 0; j < farmObjectList.itemList.length; j++){
+    var curr_obj = farmObjectList.itemList[j];
+    curr_obj.value = Math.round(findAppropriateValue(farmObjectList.itemList[j].name) * 10) / 10;
+    if (!curr_obj.desc) curr_obj.desc = "Popis objektu nezadán.";
+    if (!curr_obj.measurement_units) curr_obj.measurement_units = curr_obj.data_type;
+    curr_obj.showInput = false;
+  }
+  return farmObjectList.itemList;
+}
+
+function findAppropriateValue(name){
+  var farmObjectList = getListFarmObject();
+  var farmObjectValuesList = getListValueFarmObject();
+
+  for (var j = 0; j < farmObjectValuesList.itemList.length; j++){
+    if(name===farmObjectValuesList.itemList[j].name){
+      return farmObjectValuesList.itemList[j].value
+    }
+  }
+  return 69
 }
