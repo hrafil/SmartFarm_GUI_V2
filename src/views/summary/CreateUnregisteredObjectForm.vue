@@ -94,10 +94,6 @@
         is_settable: false
       }
     },
-    created: function () {
-      console.log('name data from parent component:');
-      console.log(this.name) //prints out an empty string
-    },
     watch: {
       name: function (newVal, oldVal) { // watch it
         if (name !== null) {
@@ -108,11 +104,17 @@
     },
     methods: {
       validateAndSend(){
-          console.log(this.desc);
+          newFarmObj = {
+            name: this.name,
+            desc: this.desc,
+            data_type: this.data_type,
+            measurement: this.measurement,
+            measurement_units: this.measurement_units,
+            is_settable:this.is_settable
+          }
           this.clearFormAndHide();
       },
       clearFormAndHide() {
-
         this.desc = null;
         this.data_type = null;
         this.measurement = null;

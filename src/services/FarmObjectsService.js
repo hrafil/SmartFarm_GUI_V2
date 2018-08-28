@@ -11,9 +11,11 @@ export default {
       return axios.get('https://jsonplaceholder.typicode.com/todos/1')
     }
   },
+
   getPreparedValues(){
     return prepareData();
   },
+
   getUnregisteredFarmObjects(){
     if (DEBUG){
       return getTestUnregisteredValues()
@@ -22,14 +24,29 @@ export default {
       var conf_obj = FarmObjectsLocalStorage.configGetConfig()
       return axios.get(conf_obj.configuration.applicationGatewayUrl + "adresa")
     }
-  }
+  },
 
+  postCreateNewFarmObject(){
+    if (DEBUG){
+      return postTestCreateNewFarmObject();
+    }
+    else {
+      return axios.post('/user', {
+        firstName: 'Fred',
+        lastName: 'Flintstone'
+      })
+    }
+  }
 }
 
-
+function postTestCreateNewFarmObject(){
+  return new Promise((resolve, reject) => {
+    reject("V testovacim prostredi nedostupna funkce!");
+  });
+}
 
 function getTestUnregisteredValues(){
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     var unregisteredObjects = {
       "unregistered_objects": [
         "test_real",

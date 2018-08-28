@@ -85,7 +85,6 @@
       proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
     </b-modal>
   </div>
-
 </template>
 
 <script>

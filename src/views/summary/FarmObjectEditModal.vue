@@ -7,7 +7,7 @@
         <b-form-group>
           <label>Popis</label>
           <b-form-input v-model="desc" type="text" id="desc"></b-form-input>
-        </b-form-group>
+        </b-form-group> 
         <b-form-group>
           <label>Datový typ</label>
           <b-form-radio-group
