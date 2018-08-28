@@ -1,11 +1,5 @@
 <template>
-  <transition name="fade">
-    <b-col v-if="showForm" sm="6">
-      <b-card>
-        <div slot="header">
-          <strong>Zaregistrovat objekt </strong>
-          <small>Form</small>
-        </div>
+    <b-modal v-model="editModal" @ok="clearEditedObj()" title="Editace objektu SmartFarm" ok-variant="success">
         <b-form-group>
           <label>Název</label>
           <b-form-input v-model="name" type="text" id="name" disabled></b-form-input>
@@ -20,29 +14,29 @@
             id="basicCustomRadios1"
             name="customRadioInline1">
             <div class="custom-control custom-radio custom-control-inline">
-              <input v-model="data_type" type="radio" id="customRadioDataTypeReal"
+              <input type="radio" id="customRadioDataTypeReal"
                      name="customRadioInline1"
-                     class="custom-control-input" value="1">
+                     class="custom-control-input" value="REAL" v-model="data_type">
               <label class="custom-control-label" for="customRadioDataTypeReal">REAL</label>
             </div>
             <div class="custom-control custom-radio custom-control-inline">
-              <input v-model="data_type" type="radio" id="customRadioDataTypeBool"
+              <input type="radio" id="customRadioDataTypeBool"
                      name="customRadioInline1"
-                     class="custom-control-input" value="2" checked>
+                     class="custom-control-input" value="BOOL" v-model="data_type">
               <label class="custom-control-label" for="customRadioDataTypeBool">BOOL</label>
             </div>
           </b-form-radio-group>
         </b-form-group>
         <b-form-group>
           <label for="street">Fyzikální veličina</label>
-          <b-form-input v-model="measurement" type="text" id="street"
+          <b-form-input type="text" id="street"
                         placeholder="Teplota, vlhkost ..."></b-form-input>
         </b-form-group>
         <b-row>
           <b-col sm="8">
             <b-form-group>
               <label for="city">Měrné jednotky</label>
-              <b-form-input v-model="measurement_units" type="text" id="city"
+              <b-form-input type="text" id="city"
                             placeholder="Ph, °C"></b-form-input>
             </b-form-group>
           </b-col>
@@ -53,13 +47,13 @@
                 id="basicCustomRadios1"
                 name="customRadioInline1">
                 <div class="custom-control custom-radio custom-control-inline">
-                  <input v-model="is_settable" type="radio" id="customRadioSettableTrue"
+                  <input type="radio" id="customRadioSettableTrue"
                          name="customRadioSettableTrue"
                          class="custom-control-input" value="1">
                   <label class="custom-control-label" for="customRadioSettableTrue">Ano</label>
                 </div>
                 <div class="custom-control custom-radio custom-control-inline">
-                  <input v-model="is_settable" type="radio" id="customRadioSettableFalse"
+                  <input type="radio" id="customRadioSettableFalse"
                          name="customRadioSettableFalse"
                          class="custom-control-input" value="2" checked>
                   <label class="custom-control-label" for="customRadioSettableFalse">Ne</label>
@@ -68,59 +62,43 @@
             </b-form-group>
           </b-col>
         </b-row>
-        <div slot="footer">
-          <b-button v-on:click="validateAndSend()" type="submit" size="sm" variant="primary"><i class="fa fa-dot-circle-o"></i> Odeslat</b-button>
-          <b-button v-on:click="clearFormAndHide()" type="reset" size="sm" variant="danger"><i class="fa fa-ban"></i>
-            Smazat
-          </b-button>
-        </div>
-      </b-card>
-    </b-col>
-  </transition>
+    </b-modal>
 </template>
 
+
 <script>
+  // import FarmObjectsService from '../../services/FarmObjectsService'
+
   export default {
-    name: 'create-unregistered-object',
-    props: ['name'],
+    name: 'farm-object-edit-modal',
+    props:{
+      editedObj: { type: Object},
+    },
     data: function () {
       return {
-        showForm: false,
-
+        editModal: false,
+        name: null,
         desc: null,
-        data_type: null,
         measurement: null,
-        measurement_units: null,
-        is_settable: false
-      }
-    },
-    created: function () {
-      console.log('name data from parent component:');
-      console.log(this.name) //prints out an empty string
-    },
-    watch: {
-      name: function (newVal, oldVal) { // watch it
-        if (name !== null) {
-          this.showForm = true
-        }
-        console.log('Prop changed: ', newVal, ' | was: ', oldVal)
+        data_type: null,
       }
     },
     methods: {
-      validateAndSend(){
-          console.log(this.desc);
-          this.clearFormAndHide();
-      },
-      clearFormAndHide() {
-
-        this.desc = null;
-        this.data_type = null;
-        this.measurement = null;
-        this.measurement_units = null;
-        this.is_settable = false;
-
-        this.showForm = false;
+      clearEditedObj(){
+        this.editModal = true;
       }
+    },
+    watch: { 
+      	editedObj: function(newVal, oldVal) {
+          this.editModal = true;
+          this.name = newVal.name;
+          this.desc = newVal.desc;
+          this.measurement = newVal.measurement;
+          this.data_type = newVal.data_type;
+        }
+    },
+    mounted() {
     }
   }
+
 </script>

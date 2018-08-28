@@ -105,6 +105,8 @@
 </template>
 
 <script>
+import FarmObjectsLocalStorage from '../../services/FarmObjectsLocalStorage'
+
   export default {
     name: 'sync-state-display',
     data: function () {
@@ -116,17 +118,21 @@
         arePeriodesChanged: false,
         isAppGatewayUrlChanged: false,
 //        ConfigurationItems
-        oldSyncReadPeriode: "30",
+        oldSyncReadPeriode: "",
         tempSyncReadPeriode: "",
         newSyncReadPeriode: "",
-        oldSyncWritePeriode: "10",
+        oldSyncWritePeriode: "",
         tempSyncWritePeriode: "",
         newSyncWritePeriode: "",
-        applicationGatewayUrl: "http://192.168.0.1/",
+        applicationGatewayUrl: "",
         tempApplicationGatewayUrl: "",
       }
     },
-    created: function () {
+    mounted: function () {
+      var conf_obj = FarmObjectsLocalStorage.configGetConfig();
+      this.oldSyncReadPeriode = conf_obj.configuration.readPeriode.toString();
+      this.oldSyncWritePeriode = conf_obj.configuration.writePeriode.toString();
+      this.applicationGatewayUrl = conf_obj.configuration.applicationGatewayUrl;
     },
     methods: {
       checkSyncStatus() {

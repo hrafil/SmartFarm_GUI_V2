@@ -58,7 +58,6 @@
     methods: {
       unregisteredObjectClicked: function (item) {
         this.name = item;
-        console.log(this.name)
       }
     }
   }

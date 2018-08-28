@@ -16,6 +16,7 @@
           <br>
           <b-row>
             <b-col sm="12">
+              <farm-object-edit-modal :editedObj=editedObj></farm-object-edit-modal>
               <div class="table-responsive">
                 <table class="table">
                   <thead>
@@ -37,7 +38,7 @@
                       <b-button-toolbar class="float-right" aria-label="Možnosti synchronizace">
                         <b-button type="button" variant="primary" class="float-right"><i class="cui-list icons"></i>
                         </b-button>
-                        <b-button type="button" variant="warning" class="float-right"><i class="cui-note icons"></i>
+                        <b-button type="button" v-on:click="sendItemToEditComponent(item)" variant="warning" class="float-right"><i class="cui-note icons"></i>
                         </b-button>
                         <b-button type="button" variant="danger" class="float-right"><i class="icon-ban"></i></b-button>
                       </b-button-toolbar>
@@ -57,13 +58,23 @@
 
 <script>
   import FarmObjectsService from '../../services/FarmObjectsService'
+  import FarmObjectEditModal from './FarmObjectEditModal'
 
   export default {
     name: 'farm-object-management',
+    components: {
+      FarmObjectEditModal
+    },
     data: function () {
       return {
         farmObjects: [],
         name: null,
+        editedObj : null,
+      }
+    },
+    methods: {
+      sendItemToEditComponent(item){
+        this.editedObj = item
       }
     },
     mounted() {
