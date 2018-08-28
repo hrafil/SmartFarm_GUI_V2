@@ -22,13 +22,13 @@
             <div class="custom-control custom-radio custom-control-inline">
               <input v-model="data_type" type="radio" id="customRadioDataTypeReal"
                      name="customRadioInline1"
-                     class="custom-control-input" value="1">
+                     class="custom-control-input" value="REAL">
               <label class="custom-control-label" for="customRadioDataTypeReal">REAL</label>
             </div>
             <div class="custom-control custom-radio custom-control-inline">
               <input v-model="data_type" type="radio" id="customRadioDataTypeBool"
                      name="customRadioInline1"
-                     class="custom-control-input" value="2" checked>
+                     class="custom-control-input" value="BOOL" checked>
               <label class="custom-control-label" for="customRadioDataTypeBool">BOOL</label>
             </div>
           </b-form-radio-group>
@@ -55,13 +55,13 @@
                 <div class="custom-control custom-radio custom-control-inline">
                   <input v-model="is_settable" type="radio" id="customRadioSettableTrue"
                          name="customRadioSettableTrue"
-                         class="custom-control-input" value="1">
+                         class="custom-control-input" value="0">
                   <label class="custom-control-label" for="customRadioSettableTrue">Ano</label>
                 </div>
                 <div class="custom-control custom-radio custom-control-inline">
                   <input v-model="is_settable" type="radio" id="customRadioSettableFalse"
                          name="customRadioSettableFalse"
-                         class="custom-control-input" value="2" checked>
+                         class="custom-control-input" value="1" checked>
                   <label class="custom-control-label" for="customRadioSettableFalse">Ne</label>
                 </div>
               </b-form-radio-group>

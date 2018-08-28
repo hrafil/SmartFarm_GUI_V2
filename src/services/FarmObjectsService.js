@@ -1,4 +1,5 @@
 import axios from 'axios'
+import FarmObjectsLocalStorage from './FarmObjectsLocalStorage'
 const DEBUG = true;
 
 export default {
@@ -13,7 +14,37 @@ export default {
   getPreparedValues(){
     return prepareData();
   },
+  getUnregisteredFarmObjects(){
+    if (DEBUG){
+      return getTestUnregisteredValues()
+    }
+    else{
+      var conf_obj = FarmObjectsLocalStorage.configGetConfig()
+      return axios.get(conf_obj.configuration.applicationGatewayUrl + "adresa")
+    }
+  }
+
 }
+
+
+
+function getTestUnregisteredValues(){
+  return new Promise((resolve, reject) => {
+    var unregisteredObjects = {
+      "unregistered_objects": [
+        "test_real",
+        "test_bool",
+        "test_int",
+        "test_string",
+        "VIB1_AR",
+      ],
+      "not_active": [],
+      "uuAppErrorMap": {}
+    }
+    resolve(unregisteredObjects);
+  });
+}
+
 
 
 function getListFarmObject(){

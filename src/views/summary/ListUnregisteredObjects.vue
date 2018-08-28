@@ -41,7 +41,7 @@
 </template>
 
 <script>
-  import UnregisteredObjectsService from '../../services/UnregisteredObjectsService'
+  import FarmObjectsService from '../../services/FarmObjectsService'
   import CreateUnregisteredObjectFormComponent from './CreateUnregisteredObjectForm.vue'
 
   export default {
@@ -51,7 +51,7 @@
     },
     data: function () {
       return {
-        unregisteredObjects: getUnregisteredObjects(),
+        unregisteredObjects: null,
         name: null
       }
     },
@@ -59,29 +59,13 @@
       unregisteredObjectClicked: function (item) {
         this.name = item;
       }
+    },
+    mounted(){
+      var smt = FarmObjectsService.getUnregisteredFarmObjects();
+      smt.then((resolve) => {
+        this.unregisteredObjects = resolve.unregistered_objects;
+      });
     }
-  }
-
-  var smt = UnregisteredObjectsService.get();
-
-  smt.then((returnVal) => {
-    //console.log(returnVal);
-  });
-
-  function getUnregisteredObjects() {
-    return objects.unregistered_objects
-  }
-
-  const objects = {
-    "unregistered_objects": [
-      "test_real",
-      "test_bool",
-      "test_int",
-      "test_string",
-      "VIB1_AR",
-    ],
-    "not_active": [],
-    "uuAppErrorMap": {}
   }
 </script>
 
