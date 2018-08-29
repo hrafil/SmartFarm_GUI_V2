@@ -56,12 +56,10 @@
     name: "dashboard-object-management",
     data: function () {
       return {
-        farmObjects: FarmObjectService.getPreparedValues()
+        farmObjects: [],
       };
     },
     mounted() {
-      this.farmObjects = FarmObjectService.getPreparedValues();
-      console.log(FarmObjectService.getPreparedValues())
     }
   };
 </script>

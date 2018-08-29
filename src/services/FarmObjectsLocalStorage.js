@@ -1,5 +1,5 @@
 import ConfigurationStoreManager from './local_storage_managers/ConfigurationStoreManager'
-
+import FarmObjectListManager from './local_storage_managers/FarmObjectsListManager'
 
 export default {
     //Part Config
@@ -18,4 +18,13 @@ export default {
     configSetSyncState(newState){
         ConfigurationStoreManager.setSyncStateFunc(newState);
     },
+  // Part ListFarmObject
+    listFarmObjectGetListFarmObject(){
+        return FarmObjectListManager.getListFarmObject();
+    },
+    listFarmObjectSetListFarmObject(listFarmObject){
+        FarmObjectListManager.setListFarmObject(listFarmObject);
+    }
   }
+
+

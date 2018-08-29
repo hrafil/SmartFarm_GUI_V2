@@ -63,7 +63,7 @@
     mounted(){
       var smt = FarmObjectsService.getUnregisteredFarmObjects();
       smt.then((resolve) => {
-        this.unregisteredObjects = resolve.unregistered_objects;
+        this.unregisteredObjects = resolve.data.unregistered_objects;
       });
     }
   }

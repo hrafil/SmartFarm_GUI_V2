@@ -80,6 +80,8 @@
 </template>
 
 <script>
+  import FarmObjectsService from "../../services/FarmObjectsService";
+
   export default {
     name: 'create-unregistered-object',
     props: ['name'],
@@ -99,19 +101,26 @@
         if (name !== null) {
           this.showForm = true
         }
-        console.log('Prop changed: ', newVal, ' | was: ', oldVal)
       }
     },
     methods: {
       validateAndSend(){
-          newFarmObj = {
+          var newFarmObj = {
             name: this.name,
             desc: this.desc,
             data_type: this.data_type,
             measurement: this.measurement,
             measurement_units: this.measurement_units,
-            is_settable:this.is_settable
-          }
+            is_settable: !!+this.is_settable
+          };
+          console.log(newFarmObj);
+          var smt = FarmObjectsService.postCreateNewFarmObject(newFarmObj);
+          smt.then((resolve) => {
+            //TODO: Message
+            //TODO: Splice objects
+//            this.unregisteredObjects = resolve.data.unregistered_objects;
+          });
+
           this.clearFormAndHide();
       },
       clearFormAndHide() {

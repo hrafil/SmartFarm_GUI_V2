@@ -16,7 +16,7 @@ export default {
         setSyncStateFunc(newState);
     },
   }
-  
+
   // Part config
   function getConfigFunc(){
       var configuration = localStorage.getItem('syncConfiguration')
@@ -29,11 +29,11 @@ export default {
             configuration:{
                 readPeriode: 30,
                 writePeriode: 10,
-                applicationGatewayUrl: "http://192.168.0.1"
+                applicationGatewayUrl: "http://localhost:6221/smartfarm/0-1/"
             }
         }
         localStorage.setItem('syncConfiguration', JSON.stringify(defaultConfiguration));
-        return defaultConfiguration;    
+        return defaultConfiguration;
     }
   }
 
@@ -59,7 +59,7 @@ export default {
     {
       var defaultState = 0
       localStorage.setItem('syncState', JSON.stringify(defaultState));
-      return defaultState;    
+      return defaultState;
     }
   }
 

@@ -25,7 +25,10 @@
                     <th scope="col">Datový typ</th>
                     <th scope="col">Fyzikální veličina</th>
                     <th scope="col">Měrné jednotky</th>
-                    <th scope="col"></th>
+                    <th scope="col">
+                      <b-button v-on:click="synchronizeAndSave()" type="button" variant="success" class="float-right"><i
+                        class="cui-cloud-download icons"> </i></b-button>
+                    </th>
                   </tr>
                   </thead>
                   <tbody>
@@ -33,12 +36,13 @@
                     <th scope="row">{{item.name}}</th>
                     <td>{{item.data_type}}</td>
                     <td>{{item.measurement}}</td>
-                    <td>@{{item.measurement_units}}</td>
+                    <td>{{item.measurement_units}}</td>
                     <td>
                       <b-button-toolbar class="float-right" aria-label="Možnosti synchronizace">
                         <b-button type="button" variant="primary" class="float-right"><i class="cui-list icons"></i>
                         </b-button>
-                        <b-button type="button" v-on:click="sendItemToEditComponent(item)" variant="warning" class="float-right"><i class="cui-note icons"></i>
+                        <b-button type="button" v-on:click="sendItemToEditComponent(item)" variant="warning"
+                                  class="float-right"><i class="cui-note icons"></i>
                         </b-button>
                         <b-button type="button" variant="danger" class="float-right"><i class="icon-ban"></i></b-button>
                       </b-button-toolbar>
@@ -58,6 +62,7 @@
 
 <script>
   import FarmObjectsService from '../../services/FarmObjectsService'
+  import FarmObjectsLocalStorage from '../../services/FarmObjectsLocalStorage'
   import FarmObjectEditModal from './FarmObjectEditModal'
 
   export default {
@@ -69,21 +74,29 @@
       return {
         farmObjects: [],
         name: null,
-        editedObj : null,
+        editedObj: null,
       }
     },
     methods: {
-      sendItemToEditComponent(item){
+      sendItemToEditComponent(item) {
         this.editedObj = item
+      },
+      synchronizeAndSave(){
+        var rq = FarmObjectsService.getListFarmObject();
+        rq.then((resolve) => {
+          this.farmObjects = resolve.data.itemList;
+          FarmObjectsLocalStorage.listFarmObjectSetListFarmObject(resolve.data.itemList);
+        });
       }
     },
     mounted() {
-      FarmObjectsService.syncListFarmObject();
-      if (localStorage.getItem('farmObjectNoValuesList')) this.farmObjects = JSON.parse(localStorage.getItem('farmObjectNoValuesList'));
-      if (this.farmObjects.count > 0) {
-        this.farmObjectsExist = true;
-      }
-    }
+      this.farmObjects = FarmObjectsLocalStorage.listFarmObjectGetListFarmObject();
+    },
+//    watch: {
+//      farmObjects: function (newVal, oldVal) {
+//        FarmObjectsLocalStorage.listFarmObjectSetListFarmObject(newVal);
+//      }
+//    }
 //TODO: POUZIT NA SLEDOVANI
 //    watch: {
 //      todos: {
