@@ -17,6 +17,7 @@
           <b-row>
             <b-col sm="12">
               <farm-object-edit-modal :editedObj=editedObj></farm-object-edit-modal>
+              <farm-object-detail-modal :detailObj=detailObj></farm-object-detail-modal>
               <div class="table-responsive">
                 <table class="table">
                   <thead>
@@ -39,7 +40,7 @@
                     <td>{{item.measurement_units}}</td>
                     <td>
                       <b-button-toolbar class="float-right" aria-label="Možnosti synchronizace">
-                        <b-button type="button" variant="primary" class="float-right"><i class="cui-list icons"></i>
+                        <b-button type="button" v-on:click="sendItemToDetailComponent(item)" variant="primary" class="float-right"><i class="cui-list icons"></i>
                         </b-button>
                         <b-button type="button" v-on:click="sendItemToEditComponent(item)" variant="warning"
                                   class="float-right"><i class="cui-note icons"></i>
@@ -64,22 +65,28 @@
   import FarmObjectsService from '../../services/FarmObjectsService'
   import FarmObjectsLocalStorage from '../../services/FarmObjectsLocalStorage'
   import FarmObjectEditModal from './FarmObjectEditModal'
+  import FarmObjectDetailModal from './FarmObjectDetailModal'
 
   export default {
     name: 'farm-object-management',
     components: {
-      FarmObjectEditModal
+      FarmObjectEditModal,
+      FarmObjectDetailModal
     },
     data: function () {
       return {
         farmObjects: [],
         name: null,
         editedObj: null,
+        detailObj: null,
       }
     },
     methods: {
       sendItemToEditComponent(item) {
         this.editedObj = item
+      },
+      sendItemToDetailComponent(item) {
+        this.detailObj = item
       },
       synchronizeAndSave(){
         var rq = FarmObjectsService.getListFarmObject();

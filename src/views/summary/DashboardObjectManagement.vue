@@ -13,7 +13,7 @@
               <i class="cui-cloud-download icons"></i>
             </b-button>
             <b-button v-on:click="syncDashboard()" type="button" variant="primary" class="float-right">
-              <i class="cui-cloud-download icons"></i>
+              <i class="cui-list icons icons"></i>
             </b-button>
           </b-col>
         </b-row>
@@ -38,10 +38,12 @@
                 </span>
               </div>
               <div v-if="item.is_settable" class="d-flex flex-column justify-content-center ml-auto">
+                <small style="color:red;" v-if="item.submitResultInValid">Nevalidní vstup!</small>
+                <small style="color:green;" v-if="item.submitResultValid">Odesláno!</small>
                 <div class="input-group">
-                  <input type="text" class="form-control" placeholder="Hodnota" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                  <input v-bind:disabled="item.submitResultValid" type="text" class="form-control" v-model="item.tempValue" placeholder="Hodnota" aria-label="Nová hodnota" aria-describedby="basic-addon2">
                   <div class="input-group-append">
-                    <button class="btn btn-outline-primary" type="button">Odeslat</button>
+                    <button v-on:click="sendObjectValue(item)" class="btn btn-outline-success" type="button">Odeslat</button>
                   </div>
                 </div>
               </div>
@@ -86,6 +88,22 @@ export default {
         null
       );
       this.dashboardObjects = FarmObjectsLocalStorage.dashboardGetManagementObjects();
+    },
+    sendObjectValue(item) {
+      if (isNaN(item.tempValue)) {
+        item.submitResultValid = false;
+        item.submitResultInValid = true;
+        item.tempValue = "";
+      } else {
+        item.newValue = item.tempValue;
+        item.submitResultInValid = false;
+        item.submitResultValid = true;
+        item.tempValue = "";
+        var smt = FarmObjectService.putNewFarmObjectValue(item);
+          smt.then((resolve) => {
+            console.log("Nová hodnota objektu: " + item.name + " o hodnotě: " + item.newValue +" byla úspěšně odeslána.")
+          });
+      }
     }
   },
   mounted() {
@@ -99,7 +117,8 @@ export default {
       );
     } else if (
       FarmObjectsLocalStorage.dashboardGetManagementObjects().length === 0 &&
-      FarmObjectsLocalStorage.listFarmObjectGetListFarmObjectValue().length === 0
+      FarmObjectsLocalStorage.listFarmObjectGetListFarmObjectValue().length ===
+        0
     ) {
       var lstr = FarmObjectService.getListFarmObject();
       var listFarmObj = [];

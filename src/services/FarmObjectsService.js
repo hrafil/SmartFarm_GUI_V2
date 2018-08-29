@@ -47,11 +47,24 @@ export default {
     }
   },
 
+  putNewFarmObjectValue(farmObject) {
+    if (DEBUG) {
+      return putNewFarmObjectValueTest();
+    } else {
+      var conf_obj = FarmObjectsLocalStorage.configGetConfig();
+      return axios.put(conf_obj.configuration.applicationGatewayUrl + "puttFarmObject", {
+        name: farmObject.name,
+        value: farmObject.newValue
+      })
+    }
+  },
+  //HELPER METHODS
+
   getDashboardValues(listFarmObject, listValuesFarmObject) {
     return filterExcludedDashboardManagement(listFarmObject, listValuesFarmObject);
   },
 
-  prepareFarmValuesData(listFarmObject, listFarmObjectValue){
+  prepareFarmValuesData(listFarmObject, listFarmObjectValue) {
     createStorageValueData(listFarmObject, listFarmObjectValue)
   },
 
@@ -59,6 +72,12 @@ export default {
     arrangeDashboardExcludedIncluded(unregisteredObjects, listFarmObject)
   }
 
+}
+
+function putNewFarmObjectValueTest() {
+  return new Promise((resolve, reject) => {
+    resolve("V testovacim prostredi nedostupna funkce!");
+  });
 }
 
 function postTestCreateNewFarmObject() {
@@ -308,9 +327,9 @@ function checkNotActive(unregisteredObjects, objectName) {
 
 // DASHBOARD management
 
-function createStorageValueData(farmObjectList, farmObjectValuesList){
-   var listObjectValues = prepareData(farmObjectList, farmObjectValuesList);
-   FarmObjectsLocalStorage.listFarmObjectSetListFarmObjectValue(listObjectValues);
+function createStorageValueData(farmObjectList, farmObjectValuesList) {
+  var listObjectValues = prepareData(farmObjectList, farmObjectValuesList);
+  FarmObjectsLocalStorage.listFarmObjectSetListFarmObjectValue(listObjectValues);
 }
 
 function filterExcludedDashboardManagement(listFarmObjects, listFarmObjectValues = null) {
