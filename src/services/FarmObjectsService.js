@@ -1,15 +1,13 @@
 import axios from 'axios'
 import FarmObjectsLocalStorage from './FarmObjectsLocalStorage'
-import 'whatwg-fetch'
 
-const DEBUG = false;
+const DEBUG = true;
 
 export default {
   getListFarmObject() {
     if (DEBUG) {
       return getTestListFarmObject();
-    }
-    else {
+    } else {
       var conf_obj = FarmObjectsLocalStorage.configGetConfig();
       return axios.get(conf_obj.configuration.applicationGatewayUrl + "listFarmObject")
     }
@@ -17,9 +15,8 @@ export default {
 
   getListWithValuesFarmObject() {
     if (DEBUG) {
-      return getTestListFarmObject();
-    }
-    else {
+      return getTestListValueFarmObject();
+    } else {
       var conf_obj = FarmObjectsLocalStorage.configGetConfig();
       return axios.get(conf_obj.configuration.applicationGatewayUrl + "listFarmObjectValue")
     }
@@ -28,8 +25,7 @@ export default {
   getUnregisteredFarmObjects() {
     if (DEBUG) {
       return getTestUnregisteredValues()
-    }
-    else {
+    } else {
       var conf_obj = FarmObjectsLocalStorage.configGetConfig();
       return axios.get(conf_obj.configuration.applicationGatewayUrl + "showUnregisteredFarmObject")
     }
@@ -38,13 +34,7 @@ export default {
   postCreateNewFarmObject(newFarmObject) {
     if (DEBUG) {
       return postTestCreateNewFarmObject();
-    }
-    else {
-      // const proxyOptions = {
-      //   headers: {
-      //     'Access-Control-Allow-Origin': '*',
-      //     'Content-Type': 'application/json',
-      //   }};
+    } else {
       var conf_obj = FarmObjectsLocalStorage.configGetConfig();
       return axios.post(conf_obj.configuration.applicationGatewayUrl + "createFarmObject", {
         name: newFarmObject.name,
@@ -54,14 +44,20 @@ export default {
         measurement_units: newFarmObject.measurement_units,
         is_settable: newFarmObject.is_settable
       })
-      // return postData(conf_obj.configuration.applicationGatewayUrl + "createFarmObject", newFarmObject)
     }
   },
 
-  getPreparedValues(listFarmObject, listValuesFarmObject) {
-    return prepareData();
+  getDashboardValues(listFarmObject, listValuesFarmObject) {
+    return filterExcludedDashboardManagement(listFarmObject, listValuesFarmObject);
   },
 
+  prepareFarmValuesData(listFarmObject, listFarmObjectValue){
+    createStorageValueData(listFarmObject, listFarmObjectValue)
+  },
+
+  syncDashboardConfigurationObjects(unregisteredObjects, listFarmObject) {
+    arrangeDashboardExcludedIncluded(unregisteredObjects, listFarmObject)
+  }
 
 }
 
@@ -74,15 +70,19 @@ function postTestCreateNewFarmObject() {
 function getTestUnregisteredValues() {
   return new Promise((resolve) => {
     var unregisteredObjects = {
-      "unregistered_objects": [
-        "test_real",
-        "test_bool",
-        "test_int",
-        "test_string",
-        "VIB1_AR",
-      ],
-      "not_active": [],
-      "uuAppErrorMap": {}
+      "data": {
+        "unregistered_objects": [
+          "test_real",
+          "test_bool",
+          "test_int",
+          "test_string",
+          "VIB1_AR",
+        ],
+        "not_active": [
+          "limit_ventilator",
+        ],
+        "uuAppErrorMap": {}
+      }
     }
     resolve(unregisteredObjects);
   });
@@ -92,8 +92,7 @@ function getTestListFarmObject() {
   return new Promise((resolve) => {
     var farmObjects = {
       "data": {
-        "itemList": [
-          {
+        "itemList": [{
             "name": "ST1_RE",
             "desc": "Teplota venkovní",
             "functional_conditions": "Vázano na ST1_SIM",
@@ -179,8 +178,7 @@ function getTestListValueFarmObject() {
   return new Promise((resolve) => {
     var inputDataList = {
       "data": {
-        "itemList": [
-          {
+        "itemList": [{
             "name": "AF1_AC",
             "value": 1,
             "awid": "1",
@@ -259,38 +257,99 @@ function getTestListValueFarmObject() {
   });
 }
 
+
+//DASHBOARD configuration
+
+function arrangeDashboardExcludedIncluded(unregisteredObjects, listFarmObject) {
+  var filteredObjects = filterDashboardConfiguration(unregisteredObjects, listFarmObject)
+  var objectsInDashboard = FarmObjectsLocalStorage.dasboardGetIncludedObjects();
+
+  var includedObjects = objectsInDashboard;
+  var excludedObjects = [];
+
+  for (var i = 0; i < filteredObjects.length; i++) {
+    var isInIncluded = false;
+    for (var j = 0; j < objectsInDashboard.length; j++) {
+      if (filteredObjects[i] === objectsInDashboard[j]) {
+        isInIncluded = true;
+      }
+    }
+    if (!isInIncluded) {
+      excludedObjects.push(filteredObjects[i])
+    }
+  }
+  FarmObjectsLocalStorage.dashboardSetExcudedObjects(excludedObjects);
+  FarmObjectsLocalStorage.dashboardSetIncudedObjects(includedObjects);
+}
+
+
+function filterDashboardConfiguration(unregisteredObjects, listFarmObject) {
+  var filteredObjects = []
+  for (var j = 0; j < listFarmObject.itemList.length; j++) {
+    var isInactive = checkNotActive(unregisteredObjects, listFarmObject.itemList[j].name)
+    if (!isInactive) {
+      filteredObjects.push(listFarmObject.itemList[j].name);
+    }
+  }
+  return filteredObjects;
+}
+
+
+function checkNotActive(unregisteredObjects, objectName) {
+  var foundInactive = false;
+  for (var i = 0; i < unregisteredObjects.not_active.length; i++) {
+    if (unregisteredObjects.not_active[i] === objectName) {
+      foundInactive = true
+      break;
+    }
+  }
+  return foundInactive
+}
+
+// DASHBOARD management
+
+function createStorageValueData(farmObjectList, farmObjectValuesList){
+   var listObjectValues = prepareData(farmObjectList, farmObjectValuesList);
+   FarmObjectsLocalStorage.listFarmObjectSetListFarmObjectValue(listObjectValues);
+}
+
+function filterExcludedDashboardManagement(listFarmObjects, listFarmObjectValues = null) {
+  var includedNames = FarmObjectsLocalStorage.dasboardGetIncludedObjects();
+  var dashboardManagementObjects = []
+  if (listFarmObjectValues !== null) {
+    listFarmObjects = prepareData(listFarmObjects, listFarmObjectValues)
+    FarmObjectsLocalStorage.listFarmObjectSetListFarmObjectValue(listFarmObjects);
+  }
+  for (var i = 0; i < includedNames.length; i++) {
+    for (var j = 0; j < listFarmObjects.length; j++) {
+      if (listFarmObjects[j].name === includedNames[i]) {
+        dashboardManagementObjects.push(listFarmObjects[j]);
+      }
+    }
+  }
+  FarmObjectsLocalStorage.dashboardSetManagementObjects(dashboardManagementObjects);
+}
+
+// Object Value calc
 function prepareData(farmObjectList, farmObjectValuesList) {
-  for (var j = 0; j < farmObjectList.itemList.length; j++) {
-    var curr_obj = farmObjectList.itemList[j];
-    curr_obj.value = Math.round(findAppropriateValue(farmObjectList.itemList[j].name, farmObjectValuesList) * 10) / 10;
-    if (!curr_obj.desc) curr_obj.desc = "Popis objektu nezadán.";
-    if (!curr_obj.measurement_units) curr_obj.measurement_units = curr_obj.data_type;
+  for (var j = 0; j < farmObjectList.length; j++) {
+    var curr_obj = farmObjectList[j];
+    var value = findAppropriateValue(farmObjectList[j].name, farmObjectValuesList)
+    if (value) {
+      curr_obj.value = Math.round(findAppropriateValue(farmObjectList[j].name, farmObjectValuesList) * 10) / 10;
+    } else {
+      curr_obj.value = "X";
+    }
     curr_obj.showInput = false;
   }
-  return farmObjectList.itemList;
+  return farmObjectList;
 }
 
 function findAppropriateValue(name, farmObjectValuesList) {
-  for (var j = 0; j < farmObjectValuesList.itemList.length; j++) {
-    if (name === farmObjectValuesList.itemList[j].name) {
-      return farmObjectValuesList.itemList[j].value
+  for (var j = 0; j < farmObjectValuesList.length; j++) {
+    if (name === farmObjectValuesList[j].name) {
+      return farmObjectValuesList[j].value
     }
   }
-  return 69
-}
-
-function postData(url, dataObject) {
-  return fetch(url, {
-    method: "POST", // *GET, POST, PUT, DELETE, etc.
-    mode: "no-cors", // no-cors, cors, *same-origin
-    cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-    credentials: "same-origin", // include, same-origin, *omit
-    headers: {
-      "Content-Type": "application/json; charset=utf-8",
-      // "Content-Type": "application/x-www-form-urlencoded",
-    },
-    redirect: "follow", // manual, *follow, error
-    referrer: "no-referrer", // no-referrer, *client
-    body: JSON.stringify(dataObject), // body data type must match "Content-Type" header
-  })
+  return false
 }

@@ -113,7 +113,6 @@
             measurement_units: this.measurement_units,
             is_settable: !!+this.is_settable
           };
-          console.log(newFarmObj);
           var smt = FarmObjectsService.postCreateNewFarmObject(newFarmObj);
           smt.then((resolve) => {
             //TODO: Message
