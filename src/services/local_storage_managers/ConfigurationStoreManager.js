@@ -39,14 +39,14 @@ export default {
 
   function setConfigPeriodesFunc(readPeriode, writePeriode){
     var currConfig = getConfigFunc();
-    currConfig.readPeriode = readPeriode;
-    currConfig.writePeriode = writePeriode;
+    currConfig.configuration.readPeriode = readPeriode;
+    currConfig.configuration.writePeriode = writePeriode;
     localStorage.setItem('syncConfiguration', JSON.stringify(currConfig));
   }
 
   function setApplicationGatewayUrlFunc(applicationGatewayUrl){
     var currConfig = getConfigFunc();
-    currConfig.applicationGatewayUrl = applicationGatewayUrl;
+    currConfig.configuration.applicationGatewayUrl = applicationGatewayUrl;
     localStorage.setItem('syncConfiguration', JSON.stringify(currConfig));
   }
 

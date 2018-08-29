@@ -26,13 +26,16 @@
                 <!-- <div class="d-flex align-items-center"> -->
                 <div style="color: blue;" class="h4">{{ item.value}}</div>
                 <div>
-                  <small v-if="item.measurement_units" class="text-muted">{{item.measurement_units}}</small>
-                  <small v-else-if="item.data_type" class="text-muted">{{item.data_type}}</small>
+                  <small> {{item.data_type}} </small>
                 </div>
               </div>
               <!-- </div> -->
               <div class="d-flex flex-column justify-content-center">
-                <h5 class="mb-1">{{item.name}}</h5>
+                <h5 class="mb-1">{{item.name}}
+                  <small v-if="item.measurement_units" class="text-muted">
+                    {{item.measurement_units}}
+                    </small>
+                </h5>
                 <span>
                   {{ item.desc }}
                 </span>
@@ -100,9 +103,15 @@ export default {
         item.submitResultValid = true;
         item.tempValue = "";
         var smt = FarmObjectService.putNewFarmObjectValue(item);
-          smt.then((resolve) => {
-            console.log("Nová hodnota objektu: " + item.name + " o hodnotě: " + item.newValue +" byla úspěšně odeslána.")
-          });
+        smt.then(resolve => {
+          console.log(
+            "Nová hodnota objektu: " +
+              item.name +
+              " o hodnotě: " +
+              item.newValue +
+              " byla úspěšně odeslána."
+          );
+        });
       }
     }
   },

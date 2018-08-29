@@ -11,7 +11,7 @@ export default {
         ConfigurationStoreManager.setConfigPeriodesFunc(readPeriode, writePeriode);
     },
     configSetApplicationGatewayUrl(applicationGatewayUrl){
-        ConfigurationStoreManager.setApplicationGatewayUrlFunc(applicationGatewayUrl);
+        ConfigurationStoreManager.setApplicationGatewayUrl(applicationGatewayUrl);
     },
     configGetSyncState(){
         return ConfigurationStoreManager.getSyncStateFunc();

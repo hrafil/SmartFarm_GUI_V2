@@ -157,6 +157,7 @@ import FarmObjectsLocalStorage from '../../services/FarmObjectsLocalStorage'
       updateGatewayUrl() {
         this.applicationGatewayUrl = this.tempApplicationGatewayUrl;
         this.tempApplicationGatewayUrl = "";
+        FarmObjectsLocalStorage.configSetApplicationGatewayUrl(this.applicationGatewayUrl);
       }
     }
   }
