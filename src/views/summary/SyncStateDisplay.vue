@@ -2,7 +2,7 @@
   <b-card>
     <b-row>
       <b-col sm="9">
-        <h4 class="card-title mb-0">Periodická synchronizace objektů SmartFarm</h4>
+        <h4 class="card-title mb-0">Periodická synchronizace veličin a procesů SmartFarm</h4>
       </b-col>
       <b-col sm="3" class="d-md-inline-block">
         <b-button-toolbar class="float-right" aria-label="Možnosti synchronizace">
@@ -19,7 +19,7 @@
       <b-card class="card-accent-success" header="Synchronizace aktivní">
         <b-row>
           <b-col md="3">
-            <strong>Objekty jsou periodicky synchronizovány!</strong>
+            <strong>Veličiny a procesy jsou periodicky synchronizovány!</strong>
           </b-col>
           <b-col md="3">
             Perioda čtení: <em>{{oldSyncReadPeriode}}s</em>

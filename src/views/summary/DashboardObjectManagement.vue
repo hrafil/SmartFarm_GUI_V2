@@ -6,7 +6,7 @@
 
         <b-row>
           <b-col sm="5">
-            <h4 class="card-title mb-0">Důležité objekty SmartFarm</h4>
+            <h4 class="card-title mb-0">Důležité veličiny a procesy SmartFarm</h4>
           </b-col>
           <b-col sm="7" class="d-md-block">
             <b-button v-on:click="getFreshValues()" type="button" variant="success" class="float-right">

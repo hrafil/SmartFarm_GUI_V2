@@ -2,7 +2,7 @@
   <b-card>
     <b-row>
       <b-col sm="5">
-        <h4 class="card-title mb-0">Registrace objektů SmartFarm</h4>
+        <h4 class="card-title mb-0">Registrace veličin a procesů SmartFarm</h4>
       </b-col>
       <b-col sm="7" class="d-md-block">
         <b-button v-b-toggle.collapseUnregisteredObjectsComponent type="button" variant="secondary" class="float-right">
@@ -18,7 +18,7 @@
             header-tag="header"
             footer-tag="footer">
             <div slot="header">
-              <i class="fa fa-align-justify"></i><strong> Neuložené objekty </strong>
+              <i class="fa fa-align-justify"></i><strong> Neuložené veličiny a procesy </strong>
               <div class="card-header-actions">
                 <a href="https://bootstrap-vue.js.org/docs/components/list-group" class="card-header-action"
                    rel="noreferrer noopener" target="_blank">

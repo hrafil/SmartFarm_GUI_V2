@@ -2,7 +2,7 @@
   <b-card>
     <b-row>
       <b-col sm="5">
-        <h4 class="card-title mb-0">Nastavení důležitých objektů</h4>
+        <h4 class="card-title mb-0">Nastavení důležitých veličin a procesů</h4>
       </b-col>
       <b-col sm="7" class="d-md-block">
         <b-button v-b-toggle.collapseDashboardConfigurationComponent type="button" variant="secondary" class="float-right">
@@ -18,7 +18,7 @@
           <b-card header-tag="header" footer-tag="footer">
             <div slot="header">
               <!-- <i class="fa fa-align-justify"></i> -->
-              <strong> Přidané objekty </strong>
+              <strong> Zobrazené veličiny a procesy </strong>
               <div class="card-header-actions">
                 <a href="https://bootstrap-vue.js.org/docs/components/list-group" class="card-header-action" rel="noreferrer noopener" target="_blank">
                 </a>
@@ -35,7 +35,7 @@
           <b-card header-tag="header" footer-tag="footer">
             <div slot="header">
               <!-- <i class="fa fa-align-justify"></i> -->
-              <strong> Nepřidané objekty </strong>
+              <strong> Nezobrazené veličiny a procesy </strong>
               <div class="card-header-actions">
                 <a href="https://bootstrap-vue.js.org/docs/components/list-group" class="card-header-action" rel="noreferrer noopener" target="_blank">
                 </a>

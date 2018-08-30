@@ -1,5 +1,5 @@
 <template>
-    <b-modal v-model="editModal" @ok="clearEditedObj()" title="Editace objektu SmartFarm" ok-variant="success">
+    <b-modal v-model="editModal" @ok="clearEditedObj()" title="Editace veličiny/procesu SmartFarm" ok-variant="success">
         <b-form-group>
           <label>Název</label>
           <b-form-input v-model="name" type="text" id="name" disabled></b-form-input>

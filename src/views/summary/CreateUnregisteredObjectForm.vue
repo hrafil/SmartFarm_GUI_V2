@@ -3,7 +3,7 @@
     <b-col v-if="showForm" sm="6">
       <b-card>
         <div slot="header">
-          <strong>Zaregistrovat objekt </strong>
+          <strong>Zaregistrovat veličinu/proces </strong>
           <small>Form</small>
         </div>
         <b-form-group>

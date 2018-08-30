@@ -1,5 +1,5 @@
 <template>
-    <b-modal v-model="detailModal" @ok="clearEditedObj()" title="Editace objektu SmartFarm" ok-variant="success">
+    <b-modal v-model="detailModal" @ok="clearEditedObj()" title="Editace veličiny/procesu SmartFarm" ok-variant="success">
         <h5>Název</h5>
         {{name}}
         <br>

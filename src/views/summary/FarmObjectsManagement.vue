@@ -4,7 +4,7 @@
       <b-card>
         <b-row>
           <b-col sm="6">
-            <h4 class="card-title mb-0">Seznam uložených objektů SmartFarm</h4>
+            <h4 class="card-title mb-0">Seznam uložených veličin a procesů SmartFarm</h4>
           </b-col>
           <b-col sm="6" class="d-none d-md-block">
             <b-button v-b-toggle.collapseFarmObjectsManagement type="button" variant="secondary"
